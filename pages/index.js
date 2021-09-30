@@ -257,7 +257,7 @@ export default function Index({ dataSet }) {
 }
 
 export async function getStaticProps(context) {
-  const res = await fetch(`https://fakerapi.it/api/v1/books?_quantity=200`);
+  const res = await fetch(process.env.DB_URL);
   const data = await res.json();
 
   if (!data) {

@@ -8,6 +8,7 @@ Install it and run:
 npm install
 npm run dev
 ```
+Open application at: `http://localhost:3000`
 
 <!-- #default-branch-switch -->
 
@@ -25,4 +26,4 @@ Next.js has [a custom Link component](https://nextjs.org/docs/api-reference/next
 
 <!-- #default-branch-switch -->
 
-You can check the application at [Vercel](https://momentive-ai-exercise-git-adaptincomingdata-jucasoliveira.vercel.app)
+You can check the application at [Vercel](https://momentive-ai-exercise.vercel.app/)
