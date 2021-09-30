@@ -74,7 +74,7 @@ export default function Index({ dataSet }) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const columns = [
-    { field: "title", label: "Title", alignRight: false },
+    { field: "title", label: "Book", alignRight: false },
     { field: "description", label: "Description", alignRight: false },
     { field: "author", label: "Author", alignRight: false },
     { field: "genre", label: "genre", alignRight: false },
