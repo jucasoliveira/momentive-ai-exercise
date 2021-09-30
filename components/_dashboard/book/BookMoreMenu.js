@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
 import editFill from "@iconify/icons-eva/edit-fill";
-import { Link as RouterLink } from "@mui/material/Link";
 import trash2Outline from "@iconify/icons-eva/trash-2-outline";
 import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 // material
@@ -12,6 +11,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
+import { Link } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
@@ -45,11 +45,7 @@ export default function UserMoreMenu() {
           />
         </MenuItem>
 
-        <MenuItem
-          component={RouterLink}
-          to="#"
-          sx={{ color: "text.secondary" }}
-        >
+        <MenuItem component={Link} to="#" sx={{ color: "text.secondary" }}>
           <ListItemIcon>
             <Icon icon={editFill} width={24} height={24} />
           </ListItemIcon>
