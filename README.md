@@ -9,12 +9,9 @@ npm install
 npm run dev
 ```
 
-or:
-
 <!-- #default-branch-switch -->
 
-
-## The idea behind the example
+## The idea behind the exercise
 
 The project uses [Next.js](https://github.com/zeit/next.js), which is a framework for server-rendered React apps.
 It includes `@mui/material` and its peer dependencies, including `emotion`, the default style engine in MUI v5.
@@ -28,3 +25,4 @@ Next.js has [a custom Link component](https://nextjs.org/docs/api-reference/next
 
 <!-- #default-branch-switch -->
 
+You can check the application at [Vercel](https://momentive-ai-exercise-git-adaptincomingdata-jucasoliveira.vercel.app)
