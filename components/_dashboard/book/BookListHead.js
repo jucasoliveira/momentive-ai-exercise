@@ -47,22 +47,17 @@ export default function BookListHead({
         </TableCell>
         {headLabel.map((headCell) => (
           <TableCell
-            key={headCell.isbn}
+            key={headCell.field}
             align={headCell.alignRight ? "right" : "left"}
-            sortDirection={orderBy === headCell.isbn ? order : false}
+            sortDirection={orderBy === headCell.field ? order : false}
           >
             <TableSortLabel
               hideSortIcon
-              active={orderBy === headCell.isbn}
-              direction={orderBy === headCell.isbn ? order : "asc"}
-              onClick={createSortHandler(headCell.isbn)}
+              active={orderBy === headCell.field}
+              direction={orderBy === headCell.field ? order : "asc"}
+              onClick={createSortHandler(headCell.field)}
             >
               {headCell.label}
-              {orderBy === headCell.isbn ? (
-                <Box sx={{ ...visuallyHidden }}>
-                  {order === "desc" ? " desc" : " asc"}
-                </Box>
-              ) : null}
             </TableSortLabel>
           </TableCell>
         ))}

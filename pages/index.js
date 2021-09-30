@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { filter } from "lodash";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Copyright from "../src/Copyright";
 import {
   Avatar,
+  Button,
+  CardContent,
   Checkbox,
+  Link,
   Stack,
   Table,
   TableBody,
@@ -17,6 +21,7 @@ import {
 import { BookMoreMenu } from "../components/_dashboard/book";
 import { Card } from "@material-ui/core";
 import BookListHead from "../components/_dashboard/book/BookListHead";
+import Paper from "../theme/overrides/Paper";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -44,7 +49,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_book) => _book.genre.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -56,6 +61,7 @@ export default function Index({ dataSet }) {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
+  const [queryGenre, setQueryGenre] = useState("");
   const [orderBy, setOrderBy] = useState("name");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -75,6 +81,11 @@ export default function Index({ dataSet }) {
     setOrderBy(property);
   };
 
+  const handleSelectGenre = (value) => {
+    console.log("evern", value);
+    const selectedGenre = value;
+    setQueryGenre(selectedGenre);
+  };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = data.map((n) => n.title);
@@ -114,7 +125,11 @@ export default function Index({ dataSet }) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const filteredTitles = applySortFilter(data, getComparator(order, orderBy));
+  const filteredTitles = applySortFilter(
+    data,
+    getComparator(order, orderBy),
+    queryGenre
+  );
 
   return (
     <Container maxWidth="xl">
@@ -129,8 +144,25 @@ export default function Index({ dataSet }) {
             Takeaway Coding Exercise - Momentive A.I
           </Typography>
         </Stack>
-
         <Card>
+          {queryGenre && (
+            <CardContent elevation={3}>
+              <Typography
+                sx={{ fontSize: 18, fontWeight: "bold", mb: 2 }}
+                color="text.primary"
+                gutterBottom
+              >
+                {queryGenre}
+                <Button
+                  onClick={() => handleSelectGenre("")}
+                  variant="contained"
+                  style={{ marginLeft: "1rem" }}
+                >
+                  RESET
+                </Button>
+              </Typography>
+            </CardContent>
+          )}
           <TableContainer sx={{ minWidth: 800 }}>
             <Table>
               <BookListHead
@@ -187,7 +219,11 @@ export default function Index({ dataSet }) {
                         </TableCell>
                         <TableCell align="left">{description}</TableCell>
                         <TableCell align="left">{author}</TableCell>
-                        <TableCell align="left">{genre}</TableCell>
+                        <TableCell align="left">
+                          <Button onClick={() => handleSelectGenre(genre)}>
+                            <Link>{genre}</Link>
+                          </Button>
+                        </TableCell>
                         <TableCell align="left">{published}</TableCell>
                         <TableCell align="left">{publisher}</TableCell>
                         <TableCell align="right">
