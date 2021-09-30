@@ -3,12 +3,6 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Copyright from "../src/Copyright";
-import { DataGrid } from "@mui/x-data-grid";
-import Image from "next/image";
-import SettingsPanel from "../components/SettingsPanel";
-import { makeStyles } from "@mui/styles";
-import { createTheme } from "@mui/material/styles";
-import { DataGridPro, GridToolbar } from "@mui/x-data-grid-pro";
 import {
   Avatar,
   Checkbox,
@@ -20,16 +14,9 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import Page from "../components/Page";
-import Label from "../components/Label";
-import Scrollbar from "../components/Scrollbar";
-import SearchNotFound from "../components/SearchNotFound";
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu,
-} from "../components/_dashboard/user";
+import { BookMoreMenu } from "../components/_dashboard/book";
 import { Card } from "@material-ui/core";
+import BookListHead from "../components/_dashboard/book/BookListHead";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -70,7 +57,6 @@ export default function Index({ dataSet }) {
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
-  const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const columns = [
@@ -80,12 +66,8 @@ export default function Index({ dataSet }) {
     { field: "genre", label: "genre", alignRight: false },
     { field: "published", label: "Release Date", alignRight: false },
     { field: "publisher", label: "Publisher", alignRight: false },
+    { field: "more", label: "More", alignRight: false },
   ];
-
-  const dataPro = {
-    columns,
-    rows: data,
-  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -129,20 +111,10 @@ export default function Index({ dataSet }) {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const filteredTitles = applySortFilter(
-    data,
-    getComparator(order, orderBy),
-    filterName
-  );
-
-  const isTitleNotFound = filteredTitles.length === 0;
+  const filteredTitles = applySortFilter(data, getComparator(order, orderBy));
 
   return (
     <Container maxWidth="xl">
@@ -161,7 +133,7 @@ export default function Index({ dataSet }) {
         <Card>
           <TableContainer sx={{ minWidth: 800 }}>
             <Table>
-              <UserListHead
+              <BookListHead
                 order={order}
                 orderBy={orderBy}
                 headLabel={columns}
@@ -219,7 +191,7 @@ export default function Index({ dataSet }) {
                         <TableCell align="left">{published}</TableCell>
                         <TableCell align="left">{publisher}</TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <BookMoreMenu />
                         </TableCell>
                       </TableRow>
                     );
