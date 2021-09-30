@@ -38,11 +38,21 @@ export default function BookListHead({
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell
+          padding="checkbox"
+          sx={{
+            bgcolor: "background.default",
+            color: "text.primary",
+          }}
+        >
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
+            sx={{
+              bgcolor: "background.default",
+              color: "text.primary",
+            }}
           />
         </TableCell>
         {headLabel.map((headCell) => (
@@ -50,12 +60,20 @@ export default function BookListHead({
             key={headCell.field}
             align={headCell.alignRight ? "right" : "left"}
             sortDirection={orderBy === headCell.field ? order : false}
+            sx={{
+              bgcolor: "background.default",
+              color: "text.secondary",
+            }}
           >
             <TableSortLabel
               hideSortIcon
               active={orderBy === headCell.field}
               direction={orderBy === headCell.field ? order : "asc"}
               onClick={createSortHandler(headCell.field)}
+              sx={{
+                bgcolor: "background.default",
+                color: "text.secondary",
+              }}
             >
               {headCell.label}
             </TableSortLabel>

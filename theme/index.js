@@ -1,19 +1,18 @@
 import PropTypes from "prop-types";
-import { useMemo } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 // material
 import { CssBaseline } from "@material-ui/core";
 import {
   ThemeProvider,
   createTheme,
   StyledEngineProvider,
+  useTheme,
 } from "@mui/material/styles";
 //
-import shape from "./shape";
-import palette from "./palette";
-import typography from "./typography";
-import GlobalStyles from "./globalStyles";
-import componentsOverride from "./overrides";
-import shadows, { customShadows } from "./shadows";
+import Box from "@mui/material/Box";
+import { IconButton } from "@mui/material";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 // ----------------------------------------------------------------------
 
@@ -21,25 +20,80 @@ ThemeConfig.propTypes = {
   children: PropTypes.node,
 };
 
+const ColorModeContext = createContext({ toggleColorMode: () => {} });
+
+function ColorBox() {
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "background.default",
+        color: "text.primary",
+        borderRadius: 1,
+        p: 3,
+      }}
+    >
+      {theme.palette.mode} mode
+      <IconButton
+        sx={{ ml: 1 }}
+        onClick={colorMode.toggleColorMode}
+        color="inherit"
+      >
+        {theme.palette.mode === "dark" ? (
+          <Brightness7Icon />
+        ) : (
+          <Brightness4Icon />
+        )}
+      </IconButton>
+    </Box>
+  );
+}
+
 export default function ThemeConfig({ children }) {
-  const themeOptions = useMemo(
+  const [mode, setMode] = useState("light");
+  const colorMode = useMemo(
     () => ({
-      palette,
-      shape,
-      typography,
-      shadows,
-      customShadows,
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+      },
     }),
     []
   );
+  const themeOptions = useMemo(
+    () => ({
+      palette: {
+        mode,
+      },
+      shape: {
+        mode,
+      },
+      typography: {
+        mode,
+      },
+      shadows: {
+        mode,
+      },
+      customShadows: {
+        mode,
+      },
+    }),
+    [mode]
+  );
 
-  const theme = createTheme(themeOptions);
-  theme.components = componentsOverride(theme);
+  const ligthTheme = createTheme(themeOptions);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={ligthTheme}>
+        <CssBaseline />
+        <ColorBox />
+        {children}
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }

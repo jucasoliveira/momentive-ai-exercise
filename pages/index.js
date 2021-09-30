@@ -17,11 +17,11 @@ import {
   TableContainer,
   TablePagination,
   TableRow,
+  Paper,
 } from "@mui/material";
 import { BookMoreMenu } from "../components/_dashboard/book";
 import { Card } from "@material-ui/core";
 import BookListHead from "../components/_dashboard/book/BookListHead";
-import Paper from "../theme/overrides/Paper";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -132,7 +132,19 @@ export default function Index({ dataSet }) {
   );
 
   return (
-    <Container maxWidth="xl">
+    <Container
+      maxWidth="xl"
+      sx={{
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "background.default",
+        color: "text.primary",
+        borderRadius: 1,
+        p: 3,
+      }}
+    >
       <Box sx={{ my: 4 }}>
         <Stack
           direction="row"
@@ -140,13 +152,16 @@ export default function Index({ dataSet }) {
           justifyContent="space-between"
           mb={5}
         >
-          <Typography variant="h4" component="h1" gutterBottom>
+          <Typography variant="h4" component="h1" gutterBottom color="info">
             Takeaway Coding Exercise - Momentive A.I
           </Typography>
         </Stack>
         <Card>
           {queryGenre && (
-            <CardContent elevation={3}>
+            <CardContent
+              elevation={3}
+              sx={{ bgcolor: "background.default", color: "text.secondary" }}
+            >
               <Typography
                 sx={{ fontSize: 18, fontWeight: "bold", mb: 2 }}
                 color="text.primary"
@@ -163,7 +178,13 @@ export default function Index({ dataSet }) {
               </Typography>
             </CardContent>
           )}
-          <TableContainer sx={{ minWidth: 800 }}>
+          <TableContainer
+            sx={{
+              minWidth: 800,
+              bgcolor: "background.paper",
+              color: "text.secondary",
+            }}
+          >
             <Table>
               <BookListHead
                 order={order}
@@ -212,20 +233,60 @@ export default function Index({ dataSet }) {
                             spacing={2}
                           >
                             <Avatar alt={title} src={image} />
-                            <Typography variant="subtitle2" noWrap>
+                            <Typography
+                              variant="subtitle2"
+                              noWrap
+                              color="text.primary"
+                            >
                               {title}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{description}</TableCell>
-                        <TableCell align="left">{author}</TableCell>
+                        <TableCell align="left">
+                          <Typography variant="subtitle2" color="text.primary">
+                            {description}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Typography
+                            variant="subtitle2"
+                            noWrap
+                            color="text.primary"
+                          >
+                            {author}
+                          </Typography>
+                        </TableCell>
                         <TableCell align="left">
                           <Button onClick={() => handleSelectGenre(genre)}>
-                            <Link>{genre}</Link>
+                            <Link>
+                              <Typography
+                                variant="subtitle2"
+                                noWrap
+                                color="text.primary"
+                              >
+                                {genre}
+                              </Typography>
+                            </Link>
                           </Button>
                         </TableCell>
-                        <TableCell align="left">{published}</TableCell>
-                        <TableCell align="left">{publisher}</TableCell>
+                        <TableCell align="left">
+                          <Typography
+                            variant="subtitle2"
+                            noWrap
+                            color="text.primary"
+                          >
+                            {published}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Typography
+                            variant="subtitle2"
+                            noWrap
+                            color="text.primary"
+                          >
+                            {publisher}
+                          </Typography>
+                        </TableCell>
                         <TableCell align="right">
                           <BookMoreMenu />
                         </TableCell>
@@ -248,6 +309,10 @@ export default function Index({ dataSet }) {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{
+              bgcolor: "background.default",
+              color: "text.primary",
+            }}
           />
         </Card>
         <Copyright />
@@ -257,7 +322,7 @@ export default function Index({ dataSet }) {
 }
 
 export async function getStaticProps(context) {
-  const res = await fetch(`https://fakerapi.it/api/v1/books?_quantity=200`);
+  const res = await fetch(process.env.DB_URL);
   const data = await res.json();
 
   if (!data) {
