@@ -1,18 +1,25 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 // material
-import { visuallyHidden } from '@material-ui/utils';
-import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@material-ui/core';
+import { visuallyHidden } from "@material-ui/utils";
+import {
+  Box,
+  Checkbox,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableSortLabel,
+} from "@material-ui/core";
 
 // ----------------------------------------------------------------------
 
 UserListHead.propTypes = {
-  order: PropTypes.oneOf(['asc', 'desc']),
+  order: PropTypes.oneOf(["asc", "desc"]),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
   headLabel: PropTypes.array,
   numSelected: PropTypes.number,
   onRequestSort: PropTypes.func,
-  onSelectAllClick: PropTypes.func
+  onSelectAllClick: PropTypes.func,
 };
 
 export default function UserListHead({
@@ -22,7 +29,7 @@ export default function UserListHead({
   headLabel,
   numSelected,
   onRequestSort,
-  onSelectAllClick
+  onSelectAllClick,
 }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -40,20 +47,20 @@ export default function UserListHead({
         </TableCell>
         {headLabel.map((headCell) => (
           <TableCell
-            key={headCell.id}
-            align={headCell.alignRight ? 'right' : 'left'}
-            sortDirection={orderBy === headCell.id ? order : false}
+            key={headCell.isbn}
+            align={headCell.alignRight ? "right" : "left"}
+            sortDirection={orderBy === headCell.isbn ? order : false}
           >
             <TableSortLabel
               hideSortIcon
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              active={orderBy === headCell.isbn}
+              direction={orderBy === headCell.isbn ? order : "asc"}
+              onClick={createSortHandler(headCell.isbn)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
+              {orderBy === headCell.isbn ? (
                 <Box sx={{ ...visuallyHidden }}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? " desc" : " asc"}
                 </Box>
               ) : null}
             </TableSortLabel>
